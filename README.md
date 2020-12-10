@@ -11,9 +11,9 @@ git clone https://github.com/zleba/rapgapEnv.git
 cd rapgapEnv
 ```
 
-Ensure that docker is installed
+Ensure that docker is installed (for Ubuntu for example)
 ```
-sudo apt get docker
+sudo apt install docker.io
 ```
 
 
