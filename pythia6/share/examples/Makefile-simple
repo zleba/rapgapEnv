@@ -1,0 +1,79 @@
+#
+# Examples Makefile.
+#
+#                  M. Kirsanov 22.01.2012
+
+-include config.mk
+ifeq (x$(PYTHIA8LOCATION),x)
+ PYTHIA6LOCATION=..
+endif
+-include ../config.mk
+
+# Location of directories.
+MYTMPDIR=tmp
+TOPDIR=$(shell \pwd)
+INCDIR=include
+SRCDIR=src
+LIBDIR=lib
+LIBDIRARCH=$(LIBDIR)/archive
+BINDIR=bin
+
+
+all:
+	@echo "Usage: make examplename  (without extension, e.g.: make main61)"
+
+
+# Create an executable for one of the normal test programs
+
+main61 main62 main63 main64 main65 main66 main67 main68 \
+	main69 main70 main71 main72 main76 main77 : \
+	$(PYTHIA6LOCATION)/$(LIBDIRARCH)/libpythia6.a \
+	$(PYTHIA6LOCATION)/$(LIBDIRARCH)/libpythia6_dummy.a \
+	$(PYTHIA6LOCATION)/$(LIBDIRARCH)/libpythia6_pdfdummy.a
+	@mkdir -p $(BINDIR)
+	@mkdir -p $(MYTMPDIR)
+	$(FC) $(FFLAGS) -I$(PYTHIA6LOCATION)/$(INCDIR) $@.f -c -o $(MYTMPDIR)/$@.o
+	$(CXX) $(CXXFLAGS) -I$(PYTHIA6LOCATION)/$(INCDIR) \
+	$(MYTMPDIR)/$@.o -o $(BINDIR)/$@.exe \
+	-L$(PYTHIA6LOCATION)/$(LIBDIRARCH) \
+	-lpythia6 -lpythia6_dummy -lpythia6_pdfdummy \
+	$(FLIBS)
+	@ln -fs $(BINDIR)/$@.exe $@.exe
+
+
+# Create an executable linked to HepMC and CLHEP (if all goes well).
+ifneq (x$(HEPMCLOCATION),x)
+  main78 main79:
+	@mkdir -p $(BINDIR)
+	@mkdir -p $(MYTMPDIR)
+	$(CXX) $(CXXFLAGS) -I$(PYTHIA6LOCATION)/$(INCDIR) -I$(HEPMCLOCATION)/include \
+	$@.cc -o $(BINDIR)/$@.exe \
+	-L$(PYTHIA6LOCATION)/$(LIBDIRARCH) \
+	-lpythia6 -lpythia6_dummy -lpythia6_pdfdummy \
+	-L$(HEPMCLOCATION)/lib -lHepMC -lHepMCfio \
+	$(FLIBS)
+	@ln -fs $(BINDIR)/$@.exe $@.exe
+else
+ main78 main79:
+	@echo ERROR, this target needs HepMC, variable HEPMCLOCATION
+endif
+
+main81 : $(PYTHIA6LOCATION)/$(LIBDIRARCH)/libpythia6.a $(PYTHIA6LOCATION)/$(LIBDIRARCH)/libpythia6_dummy.a
+	@mkdir -p $(BINDIR)
+	@mkdir -p $(MYTMPDIR)
+	$(FC) $(FFLAGS) -I$(PYTHIA6LOCATION)/$(INCDIR) $@.f -c -o $(MYTMPDIR)/$@.o
+	$(CXX) $(CXXFLAGS) -I$(PYTHIA6LOCATION)/$(INCDIR) \
+	$(MYTMPDIR)/$@.o -o $(BINDIR)/$@.exe \
+	-L$(PYTHIA6LOCATION)/$(LIBDIRARCH) -lpythia6 -lpythia6_dummy \
+	-L$(LHAPDFLOCATION) -llhapdf -llhapdf_dummy \
+	$(FLIBS)
+	@ln -fs $(BINDIR)/$@.exe $@.exe
+
+
+# Clean up: remove executables and outdated files.
+.PHONY: clean
+clean:
+	rm -rf $(BINDIR)
+	rm -rf $(MYTMPDIR)
+	rm -rf *.exe
+	rm -f *~; rm -f \#*; rm -f core*

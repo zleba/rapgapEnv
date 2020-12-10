@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# GENSER configuration:
+#
+. TOOLS/lcg_platform.sh
+lcg_platform #<-- here LCG_PLATFORM is set
+#INSTALL_DIR=${MCGENERATORS}/%PKG_NAME%/%PKG_VERSION%/${LCG_PLATFORM}
+export FFLAGS="%FFLAGS%"
+./configure %CONFIGURE_STRING%

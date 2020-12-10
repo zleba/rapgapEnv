@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# GENSER configuration:
+#
+. TOOLS/lcg_platform.sh
+lcg_platform #<-- here LCG_PLATFORM is set
+#INSTALL_DIR=${MCGENERATORS}/pythia6/427.2/${LCG_PLATFORM}
+export FFLAGS="-m64 -O2 -fPIC -Wuninitialized -fno-automatic"
+./configure --prefix=${INSTALL_DIR} --datadir=${SHARE_DIR}

@@ -1,0 +1,4 @@
+export RASEED=12344
+export HEPMCOUT=rapgap.hepmcout
+
+./rapgap_hepmc < ../share/steer-ep-diff

@@ -1,0 +1,32 @@
+---- A note from GENSER ----
+
+Pythia6 %PKG_VERSION%, author's version is %PKG_VERSION_AUTHOR%
+HEPEVT size is %HEPEVT_SIZE%
+
+Building procedure is:
+  $ export FFLAGS="%FFLAGS%"
+  $ ./configure %CONFIGURE_ARGS%
+  $ make install
+
+To see the list of options do:
+  $ ./configure --help
+
+
+
+
+---- Author's README follows: ----
+
+
+The official reference to PYTHIA and the actual manual for PYTHIA 6.4:
+
+T. Sjostrand, S. Mrenna and P. Skands,
+JHEP 05 (2006) 026 [ LU TP 06-13, FERMILAB-PUB-06-052-CD-T, hep-ph/0603175 ]
+
+Old reference:
+Short writeup, describing status and new physics as of PYTHIA 6.154:
+T. Sjostrand, P. Eden, C. Friberg, L. Lonnblad, G. Miu, S. Mrenna and
+E. Norrbin, Computer Phys. Commun. 135 (2001) 238 (LU TP 00-30, hep-ph/0010017)
+
+
+
+
